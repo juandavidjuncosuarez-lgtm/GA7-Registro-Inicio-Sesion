@@ -39,6 +39,21 @@ app.get('/api', (req, res) => {
 const PORT = 3000;
 
 // Iniciamos el servidor web
-app.listen(PORT, () => {
-    console.log(`Servidor ejecutándose en http://localhost:${PORT}`);
+app.listen(PORT, async () => {
+    const url = `http://localhost:${PORT}`;
+
+    console.log(`Servidor ejecutándose en ${url}`);
+
+    // Abrimos el navegador automáticamente usando import dinámico
+    try {
+        const { default: open } = await import('open');
+        await open(url);
+        console.log('Navegador abierto correctamente.');
+    } catch (error) {
+        console.error(
+            'No se pudo abrir el navegador automáticamente:',
+            error.message
+        );
+        console.log(`Abre manualmente esta dirección: ${url}`);
+    }
 });
