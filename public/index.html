@@ -4,56 +4,399 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema de autenticación</title>
+
+    <title>Humani | Sistema de autenticación</title>
+
+    <style>
+        /* Configuración general */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            min-height: 100vh;
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: linear-gradient(135deg, #101827, #172b46, #244b68);
+            color: #172033;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Encabezado */
+        header {
+            width: 100%;
+            padding: 22px 8%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: white;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        .logo span {
+            color: #58d6bd;
+        }
+
+        .header-text {
+            font-size: 13px;
+            color: #d0dbea;
+        }
+
+        /* Contenedor principal */
+        main {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 30px 20px 55px;
+        }
+
+        .contenedor {
+            width: 100%;
+            max-width: 440px;
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 38px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+        }
+
+        .icono {
+            width: 58px;
+            height: 58px;
+            margin: 0 auto 20px;
+            border-radius: 17px;
+            background: #e3f8f3;
+            color: #138b78;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 29px;
+            font-weight: bold;
+        }
+
+        .titulo {
+            text-align: center;
+            font-size: 27px;
+            margin-bottom: 9px;
+            color: #172033;
+        }
+
+        .descripcion {
+            text-align: center;
+            font-size: 14px;
+            line-height: 1.6;
+            color: #718096;
+            margin-bottom: 28px;
+        }
+
+        /* Campos de los formularios */
+        .grupo {
+            margin-bottom: 19px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #344054;
+        }
+
+        input {
+            width: 100%;
+            padding: 13px 14px;
+            border: 1px solid #d8e0e9;
+            border-radius: 10px;
+            font-size: 15px;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        input:focus {
+            border-color: #1ca991;
+            box-shadow: 0 0 0 3px rgba(28, 169, 145, 0.13);
+        }
+
+        /* Botón principal */
+        .boton-principal {
+            width: 100%;
+            border: none;
+            border-radius: 10px;
+            padding: 14px;
+            background: #138b78;
+            color: white;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.2s;
+        }
+
+        .boton-principal:hover {
+            background: #0e7465;
+            transform: translateY(-1px);
+        }
+
+        .boton-principal:disabled {
+            opacity: 0.65;
+            cursor: wait;
+            transform: none;
+        }
+
+        /* Enlaces entre formularios */
+        .enlace {
+            text-align: center;
+            margin-top: 23px;
+            color: #718096;
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        .boton-enlace {
+            border: none;
+            background: transparent;
+            color: #138b78;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .boton-enlace:hover {
+            text-decoration: underline;
+        }
+
+        /* Mensajes */
+        .mensaje {
+            margin-top: 16px;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 13px;
+            line-height: 1.5;
+            overflow-wrap: anywhere;
+            font-weight: 600;
+        }
+
+        .mensaje:empty {
+            display: none;
+        }
+
+        .mensaje.exito {
+            color: #147345;
+            background: #e6f7ed;
+            border: 1px solid #a9e5c1;
+        }
+
+        .mensaje.error {
+            color: #b42318;
+            background: #fff0ee;
+            border: 1px solid #f4b8b2;
+        }
+
+        .mensaje.informacion {
+            color: #245b91;
+            background: #edf5ff;
+            border: 1px solid #c5def8;
+        }
+
+        /* Ocultar la sección inactiva */
+        .oculto {
+            display: none;
+        }
+
+        /* Pie de página */
+        footer {
+            padding: 18px;
+            text-align: center;
+            color: #c2d0df;
+            font-size: 12px;
+        }
+
+        /* Adaptación a celulares */
+        @media (max-width: 480px) {
+            header {
+                padding: 20px;
+            }
+
+            .header-text {
+                display: none;
+            }
+
+            main {
+                padding: 20px 15px 35px;
+            }
+
+            .contenedor {
+                padding: 28px 22px;
+            }
+
+            .titulo {
+                font-size: 24px;
+            }
+        }
+    </style>
 </head>
+
 <body>
+    <!-- Encabezado del sistema -->
+    <header>
+        <div class="logo">HUMANI<span>.</span></div>
+        <div class="header-text">Sistema de autenticación</div>
+    </header>
 
-    <h1>Sistema de autenticación</h1>
-    <p>Regístrate o inicia sesión para continuar.</p>
+    <main>
+        <div class="contenedor">
 
-    <!-- Formulario para registrar un usuario -->
-    <section>
-        <h2>Crear cuenta</h2>
+            <!-- Formulario de inicio de sesión -->
+            <section id="seccionLogin">
+                <div class="icono">H</div>
 
-        <form id="formRegistro">
-            <label for="usuarioRegistro">Nombre de usuario:</label>
-            <input type="text" id="usuarioRegistro" name="usuario" required>
+                <h1 class="titulo">¡Bienvenido!</h1>
 
-            <br><br>
+                <p class="descripcion">
+                    Ingresa tus datos para acceder al sistema.
+                </p>
 
-            <label for="contrasenaRegistro">Contraseña:</label>
-            <input type="password" id="contrasenaRegistro" name="contrasena" required>
+                <form id="formLogin">
+                    <div class="grupo">
+                        <label for="usuarioLogin">Nombre de usuario</label>
+                        <input
+                            type="text"
+                            id="usuarioLogin"
+                            name="usuario"
+                            placeholder="Escribe tu usuario"
+                            autocomplete="username"
+                            maxlength="50"
+                            required
+                        >
+                    </div>
 
-            <br><br>
+                    <div class="grupo">
+                        <label for="contrasenaLogin">Contraseña</label>
+                        <input
+                            type="password"
+                            id="contrasenaLogin"
+                            name="contrasena"
+                            placeholder="Escribe tu contraseña"
+                            autocomplete="current-password"
+                            required
+                        >
+                    </div>
 
-            <button type="submit">Registrarme</button>
-        </form>
+                    <button type="submit" class="boton-principal">
+                        Iniciar sesión
+                    </button>
 
-        <p id="mensajeRegistro" role="status"></p>
-    </section>
+                    <p
+                        id="mensajeLogin"
+                        class="mensaje"
+                        role="status"
+                        aria-live="polite"
+                    ></p>
+                </form>
 
-    <hr>
+                <p class="enlace">
+                    ¿Todavía no tienes una cuenta?
+                    <button
+                        type="button"
+                        class="boton-enlace"
+                        id="irRegistro"
+                    >
+                        Crear una cuenta
+                    </button>
+                </p>
+            </section>
 
-    <!-- Formulario para iniciar sesión -->
-    <section>
-        <h2>Iniciar sesión</h2>
+            <!-- Formulario de registro -->
+            <section id="seccionRegistro" class="oculto">
+                <div class="icono">+</div>
 
-        <form id="formLogin">
-            <label for="usuarioLogin">Nombre de usuario:</label>
-            <input type="text" id="usuarioLogin" name="usuario" required>
+                <h1 class="titulo">Crear una cuenta</h1>
 
-            <br><br>
+                <p class="descripcion">
+                    Regístrate para comenzar a utilizar el sistema.
+                </p>
 
-            <label for="contrasenaLogin">Contraseña:</label>
-            <input type="password" id="contrasenaLogin" name="contrasena" required>
+                <form id="formRegistro">
+                    <div class="grupo">
+                        <label for="usuarioRegistro">Nombre de usuario</label>
+                        <input
+                            type="text"
+                            id="usuarioRegistro"
+                            name="usuario"
+                            placeholder="Elige un nombre de usuario"
+                            autocomplete="username"
+                            maxlength="50"
+                            required
+                        >
+                    </div>
 
-            <br><br>
+                    <div class="grupo">
+                        <label for="contrasenaRegistro">Contraseña</label>
+                        <input
+                            type="password"
+                            id="contrasenaRegistro"
+                            name="contrasena"
+                            placeholder="Crea una contraseña"
+                            autocomplete="new-password"
+                            required
+                        >
+                    </div>
 
-            <button type="submit">Iniciar sesión</button>
-        </form>
+                    <button type="submit" class="boton-principal">
+                        Crear cuenta
+                    </button>
 
-        <p id="mensajeLogin" role="status"></p>
-    </section>
-<script src="/app.js"></script>
+                    <p
+                        id="mensajeRegistro"
+                        class="mensaje"
+                        role="status"
+                        aria-live="polite"
+                    ></p>
+                </form>
+
+                <p class="enlace">
+                    ¿Ya tienes una cuenta?
+                    <button
+                        type="button"
+                        class="boton-enlace"
+                        id="irLogin"
+                    >
+                        Volver al inicio de sesión
+                    </button>
+                </p>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- Pie de página -->
+    <footer>
+        Humani © 2026 · Sistema de autenticación
+    </footer>
+
+    <!-- Lógica de registro e inicio de sesión -->
+    <script src="/app.js"></script>
+
+    <!-- Navegación entre formularios -->
+    <script>
+        const seccionLogin = document.getElementById('seccionLogin');
+        const seccionRegistro = document.getElementById('seccionRegistro');
+
+        document.getElementById('irRegistro').addEventListener('click', () => {
+            seccionLogin.classList.add('oculto');
+            seccionRegistro.classList.remove('oculto');
+        });
+
+        document.getElementById('irLogin').addEventListener('click', () => {
+            seccionRegistro.classList.add('oculto');
+            seccionLogin.classList.remove('oculto');
+        });
+    </script>
 </body>
 </html>

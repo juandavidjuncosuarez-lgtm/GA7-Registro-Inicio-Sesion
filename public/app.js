@@ -1,18 +1,24 @@
 
 /*
     Archivo: app.js
-    Función: enviar los formularios de registro e inicio de sesión
-    a la API del sistema de autenticación.
+    Función: gestionar el registro y el inicio de sesión,
+    mostrando mensajes de éxito y error.
 */
 
-// Obtenemos los formularios y los espacios para mostrar mensajes
+// Obtenemos los formularios y los espacios de mensajes.
 const formRegistro = document.getElementById('formRegistro');
 const formLogin = document.getElementById('formLogin');
 
 const mensajeRegistro = document.getElementById('mensajeRegistro');
 const mensajeLogin = document.getElementById('mensajeLogin');
 
-// Función reutilizable para enviar los datos a la API
+// Muestra un mensaje con el estilo correspondiente.
+function mostrarMensaje(elemento, texto, tipo) {
+    elemento.textContent = texto;
+    elemento.className = `mensaje ${tipo}`;
+}
+
+// Envía los datos al servidor y procesa la respuesta.
 async function enviarSolicitud(url, datos) {
     const respuesta = await fetch(url, {
         method: 'POST',
@@ -22,61 +28,95 @@ async function enviarSolicitud(url, datos) {
         body: JSON.stringify(datos)
     });
 
-    // Convertimos la respuesta del servidor a JSON
+    // Procesamos la respuesta del servidor.
     const resultado = await respuesta.json();
 
-    // Generamos un error si el servidor rechaza la solicitud
+    // Si hay un error, lo comunicamos.
     if (!respuesta.ok) {
-        throw new Error(resultado.mensaje || 'No se pudo completar la solicitud.');
+        throw new Error(
+            resultado.mensaje || 'No se pudo completar la solicitud.'
+        );
     }
 
     return resultado;
 }
 
-// Procesamos el formulario de registro
+// Registro de usuarios.
 formRegistro.addEventListener('submit', async (evento) => {
     evento.preventDefault();
 
-    mensajeRegistro.textContent = 'Registrando usuario...';
+    mostrarMensaje(
+        mensajeRegistro,
+        'Registrando usuario...',
+        'informacion'
+    );
+
+    const boton = formRegistro.querySelector('button[type="submit"]');
+    boton.disabled = true;
 
     const usuario = document.getElementById('usuarioRegistro').value.trim();
     const contrasena = document.getElementById('contrasenaRegistro').value;
 
     try {
-        const resultado = await enviarSolicitud('/api/auth/registro', {
+        await enviarSolicitud('/api/auth/registro', {
             usuario,
             contrasena
         });
 
-        mensajeRegistro.textContent =
-            resultado.mensaje || 'Usuario registrado correctamente.';
+        mostrarMensaje(
+            mensajeRegistro,
+            '✓ Usuario guardado correctamente.',
+            'exito'
+        );
 
         formRegistro.reset();
     } catch (error) {
-        mensajeRegistro.textContent = error.message;
+        mostrarMensaje(
+            mensajeRegistro,
+            `✕ No se pudo guardar el usuario: ${error.message}`,
+            'error'
+        );
+    } finally {
+        boton.disabled = false;
     }
 });
 
-// Procesamos el formulario de inicio de sesión
+// Inicio de sesión.
 formLogin.addEventListener('submit', async (evento) => {
     evento.preventDefault();
 
-    mensajeLogin.textContent = 'Verificando credenciales...';
+    mostrarMensaje(
+        mensajeLogin,
+        'Verificando credenciales...',
+        'informacion'
+    );
+
+    const boton = formLogin.querySelector('button[type="submit"]');
+    boton.disabled = true;
 
     const usuario = document.getElementById('usuarioLogin').value.trim();
     const contrasena = document.getElementById('contrasenaLogin').value;
 
     try {
-        const resultado = await enviarSolicitud('/api/auth/login', {
+        await enviarSolicitud('/api/auth/login', {
             usuario,
             contrasena
         });
 
-        mensajeLogin.textContent =
-            resultado.mensaje || 'Autenticación satisfactoria.';
+        mostrarMensaje(
+            mensajeLogin,
+            '✓ Usuario correcto. Autenticación satisfactoria.',
+            'exito'
+        );
 
         formLogin.reset();
     } catch (error) {
-        mensajeLogin.textContent = error.message;
+        mostrarMensaje(
+            mensajeLogin,
+            '✕ Error en la autenticación. Rectifica el usuario o la contraseña.',
+            'error'
+        );
+    } finally {
+        boton.disabled = false;
     }
 });
